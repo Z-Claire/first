@@ -115,3 +115,55 @@ cp -r 文件夹1 文件夹2 意思是将文件夹1复制到文件夹2，一定�
 mv 参数一 参数二
 参数一，Linux路径，表示被移动的文件或者文件夹
 参数二 ，Linux路径，表示要移动去的地方，如果目标不存在则进行改名，确保目标存在
+
+
+13、rm（remove)命令常用来删除文件/文件夹 rm 参数一 参数二 参数三可以一次删除很多文件，中间用空格隔开
+rm 文件名（用来删除当前工作目录中的文件）
+rm -r 文件夹名（用来删除当前工作目录下的文件夹也就是目录）
+rm -f（force)指强制删除（不会弹出提示确认信息，普通用户删除内容不会弹出信息，只有管理员root 用户删除内容有提示，所以一般普通用户用不到-f选项）
+
+注：rm命令支持通配符 rm  *s 表示删除当前工作目录中所有以s结尾的文件
+test*，表示匹配任何以test开头的内容
+*test，表示匹配任何以test结尾的内容
+*test*，表示匹配任何带有test的内容
+
+rm是一个危险的命令，特别是处于root 用户的时候，一定要谨慎使用。（使用超级用户权限指令 su - root，退回普通用户用exit）
+
+
+14、whichi 要查找的命令
+其实cd pwd 等命令的本体都是一个个的二进制执行程序，可以找到所使用的一系列的命令文件放在哪里
+比如我想找找cd 这个程序执行的文件在哪里我就可以直接 which cd
+同理可得which pwd /which rm/which cat 等等
+
+15、
+（1）
+find命令-按文件名查找文件
+find 起始路径-name 文件目录名
+起始路径：表示从哪开始找，也可以不加表示从当前工作目录中查找）
+-name表示按文件名查找
+注意也可以匹配通配符，find / -name "*zmq*"表示从根目录中查找名字里包含zmq的文件
+（2）
+find -size [+/-]10[kMG]（大小写严格遵守）
+-size 表示按文件大小来查找文件
++/-表示大于和小于多大内存的
+10随意表示的一个数字，可以换成任何其他的自然数
+k表示kb，M表示MB，G表示GB。
+
+
+
+16、grep命令
+grep 过滤文件中的带有关键字的行 grep [-n] “关键字” itheima（文件路径）
+意思是输出文件itheima中带有关键字标识符的行，-n可写可不写，写了还会输出行数表示过滤的第几行
+比如说文件itheima的内容为
+i am a bad girl~
+hello everyone.
+下面演示
+[q@localhost ~]$ grep "girl" itheima
+i am a bad girl~
+
+ grep "l" itheima
+i am a bad girl~
+hello everyone.
+[q@localhost ~]$ grep -n "l" itheima
+1:i am a bad girl~
+2:hello everyone.

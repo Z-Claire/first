@@ -167,3 +167,91 @@ hello everyone.
 [q@localhost ~]$ grep -n "l" itheima
 1:i am a bad girl~
 2:hello everyone.
+
+
+17、wc命令
+wc命令做数量统计wc [-c -m -l -w] 文件路径
+-l，统计行数
+-w，统计单词数量
+-c，统计字节数--bytes数量
+-m，统计字符数量
+注意，统计单词数量实际上用空格分开的两边数量比如iyy hio这就是两个单词，iyyhiocat就是一个单词
+假如我们什么都不加直接wc 文件名，比如itheima文件
+ wc itheima
+结果： 2  7 33 itheima
+什么都不加，默认统计文件内容数量：2为行数，7为单词数，33为bytes数量（可以用-lh来验证）
+
+
+
+18、管道符的使用 |（shift+enter上面那个键)
+管道符可以让左边命令的输出作为右边命令的输入。意思是左边的结果作为右边的输入，管道符可以嵌套使用。
+比如有一个ds文件内容为llo 还有一个itheima文件内容为
+i am a bad girl~
+hello everyone.
+单独cat ds时，查看ds文件的内容，输出结果为llo
+单独wc -l时，意思是查看某文件路径的行数，但不给文件，当然这个文件的输入可以通过管道符前面的命令输入进来
+ cat ds | wc -l
+输出结果：1
+因为llo只有一行，所以wc -l 的结果为1
+例
+统计文件itheima中带有l关键字的有几行
+cat itheima | grep "l" | wc -l
+输出结果：2
+例：
+ ls -l
+总用量 12
+drwxrwxr-x. 2 q q  6 8月  27 02:30 d
+drwxrwxr-x. 2 q q  6 8月  27 02:31 ddd
+drwxr-xr-x. 2 q q  6 8月  11 02:34 Desktop
+drwxr-xr-x. 2 q q  6 8月  11 02:34 Documents
+drwxr-xr-x. 2 q q  6 8月  11 02:34 Downloads
+-rw-rw-r--. 1 q q  4 8月  27 03:35 ds
+drwxrwxr-x. 2 q q  6 8月  27 02:31 e
+drwxrwxr-x. 3 q q 21 8月  11 20:50 itcast
+-rw-rw-r--. 1 q q 33 8月  27 02:53 itheima
+drwxrwxr-x. 2 q q  6 8月  27 02:31 l
+drwxr-xr-x. 4 q q 37 8月  26 04:10 Music
+drwxrwxr-x. 2 q q  6 8月  27 02:31 n
+drwxr-xr-x. 2 q q  6 8月  11 02:34 Pictures
+drwxr-xr-x. 2 q q  6 8月  11 02:34 Public
+drwxrwxr-x. 2 q q  6 8月  27 03:27 q
+drwxr-xr-x. 2 q q  6 8月  11 02:34 Templates
+-rw-rw-r--. 1 q q 15 8月  27 03:13 test.txt
+drwxr-xr-x. 2 q q  6 8月  26 03:55 Videos
+drwxrwxr-x. 3 q q 15 8月  27 02:36 y
+drwxrwxr-x. 5 q q 37 8月  27 02:32 zmq
+[q@localhost ~]$ ls -l | wc -l
+21
+
+19、
+echo输出命令，带有空格或特殊符号时，最好使用双引号
+echo 123456
+结果：123456
+echo “我喜欢美丽的自然风景”
+结果：我喜欢美丽的自然风景
+
+反引号`
+反引号包围的内容会被当成命令执行而不是普通字符
+例：
+[q@localhost ~]$ echo pwd
+pwd
+但其实我们想要这个pwd的结果[q@localhost ~]$ pwd
+/home/q
+就可以加上两个反引号包围
+[q@localhost ~]$ echo `pwd`
+/home/q
+
+例：
+[q@localhost ~]$ echo `cat itheima`
+i am a bad girl~ hello everyone.
+
+
+20、重定向符
+>，将左侧命令的结果覆盖到右边的文件中
+例如echo "hello" > itheima，结果就是itheima文件的内容变为hello，ls -l > itheima也一样
+>>，将左侧命令的结果追加到右边的文件中
+例如echo "世界很美丽" >> itheima，结果就是itheima文件的之前内容不变，后面加上一句世界很美丽
+
+21、tail命令，tail[-f -num] 文件路径，可以查看文件尾部内容，跟踪文件的最新更改
+-num ,表示尾部查看多少行，不填默认10行
+-f表示持续追踪当不写-num的时候，默认先追踪十行，Ctrl+c退出追踪

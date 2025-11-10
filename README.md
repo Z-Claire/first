@@ -359,3 +359,78 @@ ctrl +键盘右键，向右跳一个单词
 清屏：
 通过快捷键ctrl+l，可以清空终端内容
 通过命令clear得到同样效果
+
+28、软件安装yum
+安装软件：yum [-y] install 软件名   -y直接强制执行跳过询问
+查询软件：yum search 软件名
+卸载软件：yum remove 软件名
+
+29、systemctl 命令----控制：启动start、停止stop、开机自启enable、开机不自启disable、查询运行状态status
+systemctl start firewalld 启动防火墙
+（能够被systemctl管理的软件一般称之为：服务）
+一般可以控制像防火墙这样的内置服务
+NetworkManager，主网络服务
+network，副网络服务
+firewalld，防火墙服务
+sshd，ssh服务（FinalShell远程登录Linux就是使用的这个服务）
+注：也可以控制可以自动注册的第三方软件
+
+
+30、软链接，创建软链接可以将文件或者文件夹链接到其他位置打开，相似于快捷方式
+语法：ln -s 被链接的文件路径 链接去的目的地
+ln -s /etc/yum.conf /q/  将/etc中的文件yum.conf创建软链接到/q目录下
+我们可以验证cd /q
+ls -l可以查看到yum.conf以及里面的内容
+
+31、日期和时区
+（1）date命令
+直接date可以查看虚拟机当前的年月日以及时间
+date [-d] +格式化字符
+date +%Y-%m-%d%H:%M:%S按格式查看日期时间
+这个格式类似于2025-08-3116:38:02
+我们要在日期和时间加上空格的格式如下2025-08-31 16:38:02的话
+需要加上双引号date  "+%Y-%m-%d%H:%M:%S"
+上面各类符号的意义：
+%Y 年（4位数）
+%y 年份后两位数字(00. 99)
+%m 月份(01..12)
+%d 日 (01..31)
+%H 小时(00..23)
+%M 分钟(00..59)
+%S秒(00 .60)
+%s自 1970-01-01 00:00:00 UTC 到现在的秒数
+-d选项可以对日期进行加减，我们要得到当前日期的前一天则：
+date -d "-1day" [+格式]
+显示下一月的日期：
+date -d "+1month" [+格式]
+（2）修改Linux时区
+使用root权限
+rm -f /etc/localtime
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+通过以上命令将系统自带的localtime文件删除，并将/usr/share/zoneinfo/Asia/Shanghai文件链接位localtime文件即可
+（3）自动校准系统时间
+通过ntp程序自动校准系统时间
+安装ntp：yum -y install ntp
+启动并设置开机自启
+systemctl enable ntpd
+当ntpd启动后会定期的帮我们联网校准系统的时间
+（4）手动校准系统时间
+需要root权限：ntpdate -u ntp.aliyun.com
+通过阿里云提供的服务网址配合ntpdate（安装ntp后会附带这个命令）命令自动校准
+
+32、IP地址和主机名
+（1）IP地址
+每台设备都会有IP地址和主机名，可以查找到该设备用于远程连接等
+可以通过ifconfig命令查看本机IP地址
+比如我的Linux设备IP地址为192.168.106.128，主机名为centos
+特殊IP地址：
+127.0.0.1，这个IP地址用于指代本机
+0.0.0.0，特殊IP地址（可指代本机，端口绑定中确定绑定关系，一些IP地址限制中表示所有IP的意思，如放行规则设置为0.0.0.0表示允许任意IP访问）
+（2）主机名
+查看Linux系统主机名：
+使用hostname命令就可以
+修改主机名：
+hostnamectl set-hostname 名称（root权限）
+（3）域名解析（主机名映射）
+可以将IP地址与主机名相对应，连接设备的时候不用复杂的IP地址，直接输入主机名即可
+即通过主机名找到对应的IP地址

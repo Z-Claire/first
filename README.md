@@ -480,3 +480,44 @@ curl [-O] url
 （3）查看指定端口的占用情况
 安装netstat
 语法：netstat -anp | grep 端口号
+
+36、进程，每一个程序运行是被操作系统所管理的，每一个程序运行，便被操作系统注册为系统中的一个：进程
+并为每一个进程分配一个独有的：进程ID（进程号）
+（1）查看进程
+ps [-e] [-f]
+-e：显示出全部的进程
+-f：已完全格式化的形式展示信息
+一般来说：ps -ef 列出全部进程的全部信息
+[root@localhost ~]# ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 11:19 ?        00:00:00 /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+root          2      0  0 11:19 ?        00:00:00 [kthreadd]
+root          3      2  0 11:19 ?        00:00:00 [ksoftirqd/0]
+root          4      2  0 11:19 ?        00:00:00 [kworker/0:0]
+root          5      2  0 11:19 ?        00:00:00 [kworker/0:0H]
+UID：进程所属的用户ID
+·PID：进程的进程号ID
+·PPID:进程的父ID（启动此进程的其它进程)
+·C：此进程的CPU占用率（百分比）
+·STIME:进程的启动时间
+TTY:启动此进程的终端序号，如显示?，表示非终端启动
+CMD：进程的启动命令或路径
+（2）查找指定进程信息
+配合管道符的使用
+ps -f | grep tail
+（3）关闭进程
+kill [-9] 进程ID
+-9：强制关闭进程
+
+37、主机的运行状态
+（1）查看系统资源占用top命令
+（2）使用df [-h]命令可以查看硬盘的使用情况
+-h：以更加人性化的单位显示
+（3）iosat [-x] [num1] [num2]查看CPU、磁盘的相关信息
+-x：显示更多信息
+num1：数字，刷新间隔，num2：数字，刷新几次
+（4）（网络状态检监控）
+sar -n DEV num1 num2
+-n表示查看网络
+DEV表示查看网络接口
+
